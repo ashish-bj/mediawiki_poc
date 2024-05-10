@@ -1,0 +1,8 @@
+FROM registry.access.redhat.com/ubi8/ubi-init
+#MAINTAINER fatherlinux &lt;scott.mccarty@gmail.com&gt;
+RUN yum install -y mysql mysql-server php php-apcu php-intl php-mbstring php-xml php-json php-mysqlnd crontabs cronie iputils net-tools;yum clean all
+RUN systemctl enable mysql
+RUN systemctl enable httpd
+RUN systemctl disable systemd-update-utmp.service
+ENTRYPOINT ["/sbin/init"]
+CMD ["/sbin/init"]
