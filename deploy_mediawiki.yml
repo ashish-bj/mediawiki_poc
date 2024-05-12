@@ -1,0 +1,18 @@
+# deploy_mediawiki.yml
+---
+- name: Deploy MediaWiki
+  hosts: example-vm
+  become: yes
+  tasks:
+    - name: Download MediaWiki tarball
+      get_url:
+        url: "https://releases.wikimedia.org/mediawiki/1.35/mediawiki-1.35.2.tar.gz"
+        dest: "/tmp/mediawiki.tar.gz"
+
+    - name: Extract MediaWiki
+      unarchive:
+        src: "/tmp/mediawiki.tar.gz"
+        dest: "/var/www/html"
+        remote_src: yes
+
+    # Additional tasks to configure MediaWiki as needed
