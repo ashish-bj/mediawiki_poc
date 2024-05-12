@@ -1,0 +1,11 @@
+# install_mssql.yml
+---
+- name: Install MSSQL Server
+  hosts: example-vm
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Install MSSQL Server
+      win_chocolatey:
+        name: mssql-server-windows-express
+        state: present
