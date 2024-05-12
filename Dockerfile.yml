@@ -1,0 +1,40 @@
+# Use a base image with PHP and Apache
+FROM php:7.4-apache
+
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    unixODBC \
+    unixODBC-dev \
+    libgss3 \
+    odbcinst \
+    odbcinst1debian2 \
+    freetds-bin \
+    freetds-common \
+    freetds-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install the PHP MSSQL extension
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    make \
+    autoconf \
+    libc-dev \
+    pkg-config \
+    && pecl install pdo_sqlsrv \
+    && docker-php-ext-enable pdo_sqlsrv \
+    && apt-get purge -y --auto-remove gcc g++ make autoconf libc-dev pkg-config \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download and extract MediaWiki
+RUN wget https://releases.wikimedia.org/mediawiki/1.35/mediawiki-1.35.2.tar.gz && \
+    tar -xvzf mediawiki-1.35.2.tar.gz && \
+    mv mediawiki-1.35.2 /var/www/html/mediawiki
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache
+CMD ["apache2-foreground"]
