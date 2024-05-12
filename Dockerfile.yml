@@ -3,8 +3,8 @@ FROM php:7.4-apache
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
-    unixODBC \
-    unixODBC-dev \
+    #unixODBC \
+    #unixODBC-dev \
     libgss3 \
     odbcinst \
     odbcinst1debian2 \
