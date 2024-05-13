@@ -1,14 +1,27 @@
-# Use a base image with PHP and Apache
-FROM php:8.1-apache
+# Use the official Windows Server Core image as base
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
-# Install necessary dependencies
-# Download and extract MediaWiki
-RUN wget https://releases.wikimedia.org/mediawiki/1.35/mediawiki-1.35.2.tar.gz && \
-    tar -xvzf mediawiki-1.35.2.tar.gz && \
-    mv mediawiki-1.35.2 /var/www/html/mediawiki
+# Metadata
+#LABEL maintainer="Your Name <your.email@example.com>"
+
+# Download and install PHP
+RUN powershell -Command \
+    Invoke-WebRequest -Uri 'https://windows.php.net/downloads/releases/php-7.4.25-nts-Win32-vs16-x64.zip' -OutFile 'php.zip' ; \
+    Expand-Archive -Path 'php.zip' -DestinationPath 'C:\' ; \
+    Remove-Item 'php.zip'
+
+# Download and install MediaWiki
+RUN powershell -Command \
+    Invoke-WebRequest -Uri 'https://releases.wikimedia.org/mediawiki/1.37/mediawiki-1.37.1.tar.gz' -OutFile 'mediawiki.tar.gz' ; \
+    Expand-Archive -Path 'mediawiki.tar.gz' -DestinationPath 'C:\inetpub\wwwroot\' ; \
+    Move-Item 'C:\inetpub\wwwroot\mediawiki-1.37.1' 'C:\inetpub\wwwroot\mediawiki' ; \
+    Remove-Item 'mediawiki.tar.gz'
+
+# Configure PHP
+COPY php.ini 'C:\php.ini'
 
 # Expose port 80
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Start PHP server
+CMD ["C:\\php\\php.exe", "-S", "0.0.0.0:80", "-t", "C:\\inetpub\\wwwroot\\mediawiki"]
