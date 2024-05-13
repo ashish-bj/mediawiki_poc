@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediawiki
+  labels:
+    app: mediawiki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mediawiki
+  template:
+    metadata:
+      labels:
+        app: mediawiki
+    spec:
+      containers:
+      - name: mediawiki
+        image: your-container-registry/mediawiki:latest  # Update this with your MediaWiki Docker image
+        ports:
+        - containerPort: 80
+        env:
+        - name: MEDIAWIKI_DB_HOST
+          value: "mssql"  # Update this with your MSSQL database hostname
+        - name: MEDIAWIKI_DB_TYPE
+          value: "mssql"
+        - name: MEDIAWIKI_DB_NAME
+          value: "mediawiki"  # Update this with your MediaWiki database name
+        - name: MEDIAWIKI_DB_USER
+          value: "your-db-username"  # Update this with your MediaWiki database username
+        - name: MEDIAWIKI_DB_PASSWORD
+          value: "your-db-password"  # Update this with your MediaWiki database password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mediawiki
+spec:
+  selector:
+    app: mediawiki
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer  # Update this based on your load balancer configuration
