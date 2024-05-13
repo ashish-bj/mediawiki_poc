@@ -1,6 +1,6 @@
 # Use the official Windows Server Core image as base
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
-
+FROM mcr.microsoft.com/windows/servercore:1809
+#mcr.microsoft.com/windows/servercore:1809
 # Metadata
 #LABEL maintainer="Your Name <your.email@example.com>"
 
