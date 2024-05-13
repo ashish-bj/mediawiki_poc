@@ -27,9 +27,9 @@ spec:
         - name: MEDIAWIKI_DB_NAME
           value: "mediawiki"  # Update this with your MediaWiki database name
         - name: MEDIAWIKI_DB_USER
-          value: "your-db-username"  # Update this with your MediaWiki database username
+          value: "SA"  # Update this with your MediaWiki database username
         - name: MEDIAWIKI_DB_PASSWORD
-          value: "your-db-password"  # Update this with your MediaWiki database password
+          value: "Password1234!"  # Update this with your MediaWiki database password
 ---
 apiVersion: v1
 kind: Service
