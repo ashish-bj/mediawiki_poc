@@ -23,7 +23,7 @@ spec:
         - name: ACCEPT_EULA
           value: "Y"
         - name: SA_PASSWORD
-          value: "YourStrong@Passw0rd"
+          value: "Password1234!"
 ---
 apiVersion: v1
 kind: Service
