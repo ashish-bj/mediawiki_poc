@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: mediawiki
-        image: acrwikipoc/acrwikipoc:228  # Update this with your MediaWiki Docker image
+        image: acrwikipoc/acrwikipoc:235  # Update this with your MediaWiki Docker image
         ports:
         - containerPort: 80
         env:
